@@ -3,11 +3,6 @@
 
 #include <Arduino.h>
 
-#include <modbus.h>
-#include <modbusDevice.h>
-#include <modbusRegBank.h>
-#include <modbusSlave.h>
-
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -17,9 +12,12 @@ int address1;
 
 float data;
 
-uint16_t dataF, coefficient;
+uint16_t dataF;
+
+float coefficient;
 
 uint16_t* tmp = NULL;
+uint16_t tmp2, tmp3;
 
 float time_sek_Water, ImpWater_freg, Volume_Water, SumVol_Water, Average_vol_water;
 
@@ -42,9 +40,11 @@ String spaces = "       ";
 
 void writeEEPROM () 
 {
-  EEPROM.put(0,  coefficient);
+  coefficient = coefficient / dataF; 
 
-  EEPROM.put(20, dataF);
+  EEPROM.put(0,  coefficient );   // coefficient
+
+  EEPROM.put(5, dataF);
 }
 
 } 
